@@ -1,0 +1,27 @@
+import google.generativeai as genai
+genai.configure(api_key="AIzaSyCoYzJU2VHpaOgBq0CoElAuy_MyRJIhVhw")
+model = genai.GenerativeModel("gemini-1.5-flash")
+#user input
+audi = input("Enter your audience type: ")
+brandtype = input("Enter your brand type: ")
+captions = int(input("Enter the number of captions: "))
+hashtags = int(input("Enter the number of hashtags: "))
+
+# prompt
+system_prompt = '''You are a designer and strategist. When a user provides the following details:
+1. Audience Type – The characteristics of the target audience (like for ex:age group, interests, location, behavior, values, etc.).
+2. Brand Type – The nature of the brand, including its tone, personality, and core values (for ex: luxury, eco-friendly, tech-focused, youthful, corporate, etc.).
+Your task is to analyze the provided audience and brand type, and then generate creative captions and relevant hashtags that align with the audience's preferences and the brand's identity.
+The captions should be engaging, reflect the brand’s voice, and resonate with the audience's needs and desires. The hashtags should be specific, trendy, and optimized for reach and
+engagement based on the brand and audience type.'''
+
+# inputs into the prompt
+user_input = f"Audience Type: {audi}\nBrand Type: {brandtype}\nNumber of Captions: {captions}\nNumber of Hashtags: {hashtags}"
+full_prompt = system_prompt + "\n" + user_input
+
+def chat_with_bot(prompt):
+    response = model.generate_content(prompt)
+    return response.text
+
+result = chat_with_bot(full_prompt)
+print(result)
